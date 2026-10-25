@@ -274,8 +274,11 @@ impl NativeStore {
         if self.store.is_none() {
             #[cfg(target_os = "linux")]
             let store = zbus_secret_service_keyring_store::Store::new();
+            // The app's own data protection keychain: needs a build signed
+            // with a provisioning profile, and never touches the login
+            // keychain file.
             #[cfg(target_os = "macos")]
-            let store = apple_native_keyring_store::keychain::Store::new();
+            let store = apple_native_keyring_store::protected::Store::new();
             #[cfg(windows)]
             let store = windows_native_keyring_store::Store::new();
             self.store = Some(store.map_err(|error| native_error("open", error))?);

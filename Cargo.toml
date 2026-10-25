@@ -199,7 +199,8 @@ libc = "0.2"
 [target.'cfg(target_os = "macos")'.dependencies]
 # The packaged Dock artwork also identifies unbundled Cargo runs.
 fastframe-dock = { git = "https://github.com/crmne/fastframe", tag = "v0.14.0" }
-apple-native-keyring-store = { version = "1.0.2", features = ["keychain"] }
+# Credentials go in the app's own data protection keychain (`credentials.rs`).
+apple-native-keyring-store = { version = "1.0.2", features = ["protected"] }
 # The application menus and Dock menu (src/mac_menu.rs). "exception" lets
 # src/mac_touchbar_crash_guard.rs catch a specific AppKit Objective-C
 # exception instead of letting it abort the process. NSWorkspace and
